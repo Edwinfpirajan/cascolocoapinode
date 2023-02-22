@@ -215,15 +215,21 @@ const createProduct = async (product) => {
         </product>
         </prestashop>
         `
-    const res = await axios.post(
-        'https://serverpruebas.tk/api/products?output_format=JSON&ws_key=S7UVTH5XIPYEPRWRHD5SUZNVZKT8SU1I', xmlString,
-        {
-            headers: {
-                'Content-Type': 'text/xml',
-            }
+
+        try {
+            const res = await axios.post(
+                'https://serverpruebas.tk/api/products?output_format=JSON&ws_key=S7UVTH5XIPYEPRWRHD5SUZNVZKT8SU1I', xmlString,
+                {
+                    headers: {
+                        'Content-Type': 'text/xml',
+                    }
+                }
+            );
+            return res.data
+            
+        } catch (error) {
+            console.log('error',error);
         }
-    );
-    return res.data
 };
 
 

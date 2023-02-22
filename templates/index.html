@@ -1,0 +1,117 @@
+{
+    "products" [
+        {
+            "id": 45,
+            "id_manufacturer": "9",
+            "id_supplier": "0",
+            "id_category_default": "2",
+            "new": null,
+            "cache_default_attribute": "0",
+            "id_default_image": "130",
+            "id_default_combination": 0,
+            "id_tax_rules_group": "0",
+            "position_in_category": "18",
+            "manufacturer_name": "Scala Rider",
+            "quantity": "0",
+            "type": "simple",
+            "id_shop_default": "1",
+            "reference": "SMH5",
+            "supplier_reference": "",
+            "location": "",
+            "width": "0.000000",
+            "height": "0.000000",
+            "depth": "0.000000",
+            "weight": "0.000000",
+            "quantity_discount": "0",
+            "ean13": "",
+            "isbn": "",
+            "upc": "",
+            "mpn": "",
+            "cache_is_pack": "0",
+            "cache_has_attachments": "0",
+            "is_virtual": "0",
+            "state": "1",
+            "additional_delivery_times": "1",
+            "delivery_in_stock": "",
+            "delivery_out_stock": "",
+            "product_type": "",
+            "on_sale": "0",
+            "online_only": "0",
+            "ecotax": "0.000000",
+            "minimal_quantity": "1",
+            "low_stock_threshold": null,
+            "low_stock_alert": "0",
+            "price": "995000.000000",
+            "wholesale_price": "0.000000",
+            "unity": "",
+            "unit_price_ratio": "0.000000",
+            "additional_shipping_cost": "0.000000",
+            "customizable": "0",
+            "text_fields": "0",
+            "uploadable_files": "0",
+            "active": "0",
+            "redirect_type": "404",
+            "id_type_redirected": "0",
+            "available_for_order": "1",
+            "available_date": "0000-00-00",
+            "show_condition": "0",
+            "condition": "new",
+            "show_price": "1",
+            "indexed": "0",
+            "visibility": "both",
+            "advanced_stock_management": "0",
+            "date_add": "2017-12-13 19:21:45",
+            "date_upd": "2023-02-07 22:10:31",
+            "pack_stock_type": "3",
+            "meta_description": "",
+            "meta_keywords": "",
+            "meta_title": "",
+            "link_rewrite": "-intercomunicador-scala-rider-q1-team-set",
+            "name": "Intercomunicador Scala Rider SMH5  Team Set",
+            "description": "<p>Los perfectos sistemas de intercomunicadores Scala Rider hacen que la comunicación durante el viaje sea más fácil y cómoda. Habla con otros compañeros de ruta o conecta tu celular por bluetooth para contestar llamadas y escuchar música.</p>",
+            "description_short": "<p>Rueda con libertad, Scala Rider te permite comunicarte con otros usuarios a través de su sistema de intercomunicadores.</p>",
+            "available_now": "Disponible",
+            "available_later": "Reservar",
+            "associations": {
+                "categories": [
+                    {
+                        "id": "2"
+                    }
+                ],
+                "images": [
+                    {
+                        "id": "130"
+                    },
+                    {
+                        "id": "129"
+                    }
+                ],
+                "stock_availables": [
+                    {
+                        "id": "104",
+                        "id_product_attribute": "0"
+                    }
+                ]
+            }
+        }
+    ]
+}
+https://stackoverflow.com/questions/75341552/how-fix-error-protocol-with-cpanel-and-go-server
+
+doc. http://doc.prestashop.com/display/PS16/Managing+Hooks
+
+ 
+editar prestashop desde api nodejs
+https://api2cart.com/supported-platforms/prestashop-integration/?utm_campaign=2022+PrestaShop-Integrationn.kov&utm_source=adwords&utm_term=prestashop%20api&utm_medium=ppc&gclid=EAIaIQobChMI6-nUnM2G_QIVCnyGCh3H5wtyEAAYASAAEgKmTfD_BwE
+
+se trata de que el módulo este registrado e implemente los métodos
+
+ public function hookAddProduct($params)
+    {
+          $product=$params['product];
+    }
+
+    public function hookUpdateProduct($params)
+    {
+        $product=$params['product];
+    }

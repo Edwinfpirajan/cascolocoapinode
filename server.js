@@ -1,41 +1,39 @@
 /* crear server puerto 3001 e importar las funciones de api.js */
+require('dotenv').config();
+const cors = require('cors')
 const express = require('express');
+const port = process.env.PORT;
+//const xml2js = require('xml2js');
 const app = express();
-const port = 3001;
-const { getProducts, createProduct, updateProduct, getProduct } = require('./controllers/api');
-const xml2js = require('xml2js');
-var cors = require('cors')
+// Routes Availables
+let paths = {
+  api:   '/',
+  buscar:   '/api/buscar',
+  products:     '/api/products',
+  stock:  '/api/stock',
+  pedidos:    '/api/pedidos',
+}
+// Middlewares
+middlewares()
+// api routes
+routes(paths);
 
+function middlewares() {  
+  // CORS
+  app.use(cors());
+  // Read and Parse from Body
+  app.use( express.json({ limit: '50mb' }) );
+}
 
+function routes(path) {
+  //Route Ediwn`s
+  app.use( path.api, require('./routes/apiRoutes'));
+  app.use( path.products, require('./routes/productsRoutes'));
+  app.use( path.pedidos, require('./routes/ordersRoutes'));
+  app.use( path.stock, require('./routes/stockRoutes'));
+}
+
+// Server run in Port
 app.listen(port, () => {
   console.log(`Servidor corriendo ${port}`);
-});
-
-app.get('/', (req, res) => {
-  res.end('servidor cascoloco')
-})
-
-app.use(cors());
-app.use(express.json());
-
-app.get('/products', async (req, res) => {
-    const products = await getProducts();
-    res.json(products);
-});
-
-/* Importar función getProduct*/
-
-app.get('/products/:id', async (req, res) => {
-    const product = await getProduct(req.params.id);
-    res.json(product);
-});
-
-app.post('/products/create', async (req, res) => {
-    const product = await createProduct(req.body);
-    res.json(product);
-});
-
-app.put('/products/edit/', async (req, res) => {
-    const product = await updateProduct(req.body);
-    res.json(product);
 });

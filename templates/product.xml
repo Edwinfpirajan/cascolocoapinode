@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
+<product>
+<id_shop_default>
+<![CDATA[1]]>
+</id_shop_default>
+<is_virtual>
+<![CDATA[0]]>
+</is_virtual>
+<state>
+<![CDATA[1]]>
+</state>
+<online_only>
+<![CDATA[0]]>
+</online_only>
+<low_stock_alert>
+<![CDATA[0]]>
+</low_stock_alert>
+<price>
+<![CDATA[0.000000]]>
+</price>
+<wholesale_price>
+<![CDATA[0.000000]]>
+</wholesale_price>
+<active>
+<![CDATA[1]]>
+</active>
+<available_for_order>
+<![CDATA[1]]>
+</available_for_order>
+<show_price>
+<![CDATA[1]]>
+</show_price>
+<indexed>
+<![CDATA[1]]>
+</indexed>
+<link_rewrite>
+<language id="1">
+<![CDATA[]]>
+</language>
+</link_rewrite>
+<id>${id}</id>
+<name>
+<language id="1">
+<![CDATA[ARTICULO NUEVO]]>
+</language>
+</name>
+<stock_availables nodeType="stock_available" api="stock_availables">
+           <stock_available >
+               <id>
+                ${quantity}
+               </id>
+        <id_product_attribute>
+        <![CDATA[ 0 ]]>
+        </id_product_attribute>
+    </stock_available>
+</stock_availables>
+</product>
+</prestashop>
