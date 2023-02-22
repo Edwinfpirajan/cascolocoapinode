@@ -29,12 +29,13 @@ const getStockSchema = async (req, res) => {
 };
 const getStock = async (req, res) => {
     let schema=[];
+    {nlimit, offset} = req.body
     try {
         const nlimit=5;
         const offset=9;
         const display ='?display=full'
         const filter ="&filter[date_add]"+filterParameter;
-        const sort= "&sort=[date_add_DESC]&date=1"
+        const sort= "&sort=[quantity_DESC]"
         const limit = '&limit='+offset+','+nlimit
         const schema = await axios.get(`${uri}${display}${sort}${limit}${keyJS}`);
         console.log("Logro",schema);
