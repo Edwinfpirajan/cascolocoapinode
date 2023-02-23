@@ -6,34 +6,46 @@ const options = {
     ignoreAttributes: false,
     attributeNamePrefix: "",
 };
-const uri = process.env.uri;
-const key = process.env.key;
 
-//const uri = `https://${key}@serverpruebas.tk/api/`
+const uri = process.env.uri;
+const key = '&ws_key='+process.env.key;
+const keyJS = '&output_format=JSON&ws_key='+key;
+const filterParameter = "=>[2023-00-00%2024:00:00]"
+// Consume products to front
+/** (details : array (\n  0 => 'display=full',\n))\". However, these are available
+ * @var images : id, id_manufacturer, id_supplier, id_category_default, new, cache_default_attribute, id_default_image, id_default_combination, id_tax_rules_group, position_in_category, manufacturer_name, quantity, type, id_shop_default, reference, supplier_reference, location, width, height, depth, weight, quantity_discount, ean13, isbn, upc, mpn, cache_is_pack, cache_has_attachments, is_virtual, state, additional_delivery_times, delivery_in_stock, delivery_out_stock, product_type, on_sale, online_only, ecotax, minimal_quantity, low_stock_threshold, low_stock_alert, price, wholesale_price, unity, unit_price_ratio, additional_shipping_cost, customizable, text_fields, uploadable_files, active, redirect_type, id_type_redirected, available_for_order, available_date, show_condition, condition, show_price, indexed, visibility, advanced_stock_management, date_add, date_upd, pack_stock_type, meta_description, meta_keywords, meta_title, link_rewrite, name, description, description_short, available_now, available_later" */
 const getProducts = async (req, res) => {
+    const { step, since } = req.body;
+    console.log(req);
     try {
-        const schema = await axios.get(`${uri}addresses?schema=blank&ws_key=${key}`);
+        const nlimit=step? step :5;
+        const offset=since? since :9;
+        const display ='?display=[id,price,name,reference,stock_availables[id,id_product_attribute],images[id ]'
+        const filter ="&filter[date_add]"+filterParameter;
+        const sort= "&sort=[quantity_DESC]"
+        const limit = '&limit='+offset+','+nlimit
+        const schema = await axios.get(`${uri}/products?schema=blank${key}`);
         console.log(schema.data);
         const { data: response } = await axios.get(
-            `https://serverpruebas.tk/api/products?display=[id,price,name,reference,stock_availables[id,id_product_attribute]]&output_format=JSON&ws_key=S7UVTH5XIPYEPRWRHD5SUZNVZKT8SU1I`
+            `${uri}/products${display}${limit}${sort}${keyJS}`
         );
         const { data: response2 } = await axios.get(
-            `https://serverpruebas.tk/api/combinations?display=[id, id_product,quantity,reference,product_option_values[id]]&output_format=JSON&ws_key=S7UVTH5XIPYEPRWRHD5SUZNVZKT8SU1I`
+            `${uri}/combinations?display=[id, id_product,quantity,reference,product_option_values[id]]&output_format=JSON&ws_key=S7UVTH5XIPYEPRWRHD5SUZNVZKT8SU1I`
         );
         const { data: response3 } = await axios.get(
-            `https://serverpruebas.tk/api/product_option_values?display=[id,name]&output_format=JSON&ws_key=S7UVTH5XIPYEPRWRHD5SUZNVZKT8SU1I`
+            `${uri}/product_option_values?display=[id,name]&output_format=JSON&ws_key=S7UVTH5XIPYEPRWRHD5SUZNVZKT8SU1I`
         );
 
         const { products } = response;
         const { combinations } = response2;
         const { product_option_values } = response3;
-        console.log(combinations);
 
         let producto = [];
         products.map(({ id, price, name, associations }) => {
             if (associations && associations.stock_availables) {
                 for (let stock_available of associations.stock_availables) {
                     let finalName = name;
+                    console.log(associations);
                     const data_product = combinations.find(
                         (combination) => combination.id == stock_available.id_product_attribute
                     );
@@ -59,14 +71,15 @@ const getProducts = async (req, res) => {
         });
         return res.json(producto);
     } catch (error) {
-        console.log(error);
+        console.log("Errores",error);
+        return res.status(error.response.status).json(error.response.data.errors);
     }
 };
 
 const getProduct = async (id) => {
     try {
         const res = await fetch(
-            `https://serverpruebas.tk/api/products/${id}?display=full&output_format=JSON&ws_key=S7UVTH5XIPYEPRWRHD5SUZNVZKT8SU1I`
+            `${uri}/products/${id}?display=full&output_format=JSON&ws_key=S7UVTH5XIPYEPRWRHD5SUZNVZKT8SU1I`
         );
         // const data = await res.text();
         // let jsonObj = parser.parse(data);

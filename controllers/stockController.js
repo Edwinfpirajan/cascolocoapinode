@@ -29,10 +29,10 @@ const getStockSchema = async (req, res) => {
 };
 const getStock = async (req, res) => {
     let schema=[];
-    {nlimit, offset} = req.body
+    const { step, since } = req.body;
     try {
-        const nlimit=5;
-        const offset=9;
+        const nlimit=step? step :5;
+        const offset=since? since :9;
         const display ='?display=full'
         const filter ="&filter[date_add]"+filterParameter;
         const sort= "&sort=[quantity_DESC]"
