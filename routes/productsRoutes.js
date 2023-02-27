@@ -14,8 +14,5 @@ router.post('/create', async (req, res) => {
       res.json(product);
   });
   
-router.put('/edit/', async (req, res) => {
-      const product = await updateProduct(req.body);
-      res.json(product);
-  });
+  router.patch('/edit/:id', updateProduct);
 module.exports = router;

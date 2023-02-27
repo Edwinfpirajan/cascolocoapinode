@@ -15,13 +15,13 @@ const getProducts = async (req, res) => {
         const schema = await axios.get(`${uri}addresses?schema=blank&ws_key=${key}`);
         console.log(schema.data);
         const { data: response } = await axios.get(
-            `https://serverpruebas.tk/api/products?display=[id,price,name,reference,stock_availables[id,id_product_attribute]]&output_format=JSON&ws_key=S7UVTH5XIPYEPRWRHD5SUZNVZKT8SU1I`
+            `${uri}products?display=[id,price,name,reference,stock_availables[id,id_product_attribute]]&output_format=JSON&ws_key=S7UVTH5XIPYEPRWRHD5SUZNVZKT8SU1I`
         );
         const { data: response2 } = await axios.get(
-            `https://serverpruebas.tk/api/combinations?display=[id, id_product,quantity,reference,product_option_values[id]]&output_format=JSON&ws_key=S7UVTH5XIPYEPRWRHD5SUZNVZKT8SU1I`
+            `${uri}combinations?display=[id, id_product,quantity,reference,product_option_values[id]]&output_format=JSON&ws_key=S7UVTH5XIPYEPRWRHD5SUZNVZKT8SU1I`
         );
         const { data: response3 } = await axios.get(
-            `https://serverpruebas.tk/api/product_option_values?display=[id,name]&output_format=JSON&ws_key=S7UVTH5XIPYEPRWRHD5SUZNVZKT8SU1I`
+            `${uri}product_option_values?display=[id,name]&output_format=JSON&ws_key=S7UVTH5XIPYEPRWRHD5SUZNVZKT8SU1I`
         );
 
         const { products } = response;
@@ -66,7 +66,7 @@ const getProducts = async (req, res) => {
 const getProduct = async (id) => {
     try {
         const res = await fetch(
-            `https://serverpruebas.tk/api/products/${id}?display=full&output_format=JSON&ws_key=S7UVTH5XIPYEPRWRHD5SUZNVZKT8SU1I`
+            `${uri}products/${id}?display=full&output_format=JSON&ws_key=S7UVTH5XIPYEPRWRHD5SUZNVZKT8SU1I`
         );
         // const data = await res.text();
         // let jsonObj = parser.parse(data);
@@ -125,27 +125,57 @@ const createProduct = async (product) => {
         }
 };
 
-const updateProduct = async (product) => {
+const updateProduct = async (req, res) => {
+    const { id } = req.params;
+    const { name, price, quantity, position_in_category } = req.body;
 
-    const {
-        id,
-        name,
-        price,
-        quantity,
-        position_in_category
-    } = product
+    const bodyXml = `<prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <product>
+                           <price>
+                              <![CDATA[ ${price} ]]>
+                           </price>
+                           <name>
+                             <language id="1" xlink:href="https://tienda.scsintercom.com/api/languages/1">
+                                <![CDATA[ ${name} ]]>
+                             </language>
+                           </name>
+                          </product>
+                     </prestashop>`
 
-    
-    const res = await axios.path(
-        `https://serverpruebas.tk/api/products?output_format=JSON&ws_key=S7UVTH5XIPYEPRWRHD5SUZNVZKT8SU1I`, xmlString,
-        {
+    try {
+        const response = await axios.patch(`${uri}products/${id}?output_format=JSON&ws_key=S7UVTH5XIPYEPRWRHD5SUZNVZKT8SU1I`, bodyXml, {
             headers: {
                 'Content-Type': 'text/xml',
-            }
-        }
-    );
-    return res.data
+            },
+        });
+
+        res.status(200).json(response.data);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
 };
+// const updateProduct = async (product) => {
+
+//     const {
+//         id,
+//         name,
+//         price,
+//         quantity,
+//         position_in_category
+//     } = product
+
+    
+//     const res = await axios.path(
+//         `https://serverpruebas.tk/api/products/${product}?output_format=JSON&ws_key=S7UVTH5XIPYEPRWRHD5SUZNVZKT8SU1I`, xmlString,
+//         {
+//             headers: {
+//                 'Content-Type': 'text/xml',
+//             }
+//         }
+//     );
+//     return res.data
+// };
 
 module.exports = {
     getProducts,

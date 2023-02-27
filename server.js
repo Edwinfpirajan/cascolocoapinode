@@ -1,5 +1,6 @@
 /* crear server puerto 3001 e importar las funciones de api.js */
 require('dotenv').config();
+// console.log(process.env)
 const cors = require('cors')
 const express = require('express');
 const port = process.env.PORT;
