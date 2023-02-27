@@ -14,5 +14,6 @@ router.post('/create', async (req, res) => {
       res.json(product);
   });
   
-  router.patch('/edit/:id', updateProduct);
-module.exports = router;
+router.patch('/edit/:id', updateProduct);
+
+  module.exports = router;
